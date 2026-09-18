@@ -1,0 +1,31 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title format
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "PR Title: $PR_TITLE"
+
+          PATTERN='^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)\([a-zA-Z0-9._/-]+\): .+$'
+
+          if [[ "$PR_TITLE" =~ $PATTERN ]]; then
+            echo "PR title format is valid."
+          else
+            echo "PR title format is invalid."
+            echo ""
+            echo "Expected format: type(target-branch): message"
+            echo "  - type          : feat | fix | chore | docs | style | refactor | perf | test | build | ci | revert"
+            echo "  - target-branch : the branch this PR is merging into"
+            echo "  - message       : a short description after ': '"
+            echo ""
+            echo "Example: fix(development): Ci workflows"
+            exit 1
+          fi
