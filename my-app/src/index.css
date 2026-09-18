@@ -2,8 +2,38 @@
 
 @layer base {
   :root {
-    @apply text-[rgba(255,255,255,0.87)] bg-[#242424] font-sans;
+    @apply text-[rgba(255,255,255,0.87)] font-sans;
   }
 
-  
+  body {
+    @apply bg-[#00091d];
+    position: relative;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(#ffffff33 1px, transparent 1px);
+    background-size: 20px 20px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 0%, #000 80%, transparent 100%);
+  }
+}
+
+.tap {
+  transition: all 250ms ease;
+}
+
+.tap:active {
+  transform: scale(0.8);
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
